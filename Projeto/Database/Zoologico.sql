@@ -54,3 +54,5 @@ create table Funcionario (
 create role Privilegios;
 grant all on * to Privilegios;
 create user 'DiretorGeral'@'%' identified by 'senha';
+
+-- oi gnt 
