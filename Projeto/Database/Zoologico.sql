@@ -251,22 +251,30 @@ delimiter ;
 -- Trigger 
 delimiter $$
 
-drop trigger if exists promocao_aniversario;
-create trigger promocao_aniversario before update on Visitante for each row
+drop trigger if exists desconto_infantil $$
+
+create trigger desconto_infantil
+before insert on Ingresso
+for each row
 begin
-	 
-	if new.aniversario = true and old.aniversario = false then
-		update Ingresso
-        set preco = preco * 0.8
-        where id_visitante = new.id_Visitante;
-	end if;
-end; $$ 
+
+    declare idade_visitante int;
+
+    -- Busca a idade do visitante
+    select idade
+    into idade_visitante
+    from Visitante
+    where id_Visitante = new.id_visitante;
+
+    -- Regra de desconto infantil
+    if idade_visitante < 12 then
+        set new.preco = 0;
+        set new.tipo = 'Isento';
+    end if;
+
+end $$
+
 delimiter ;
-
-update Visitante set aniversario = false where id_Visitante = 6;
-update Visitante set aniversario = true where id_Visitante = 9;
-
-select nome, idade, aniversario from Visitante;
 
 -- Views
 create view Animais_Peso_Idade as (select peso, idade from Animais);
