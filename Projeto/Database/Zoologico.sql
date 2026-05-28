@@ -32,7 +32,8 @@ create table Animal (
 create table Visitante ( 
     id_Visitante int primary key auto_increment,
     nome varchar(45), 
-    idade int
+    idade int,
+    aniversario boolean
     -- numeroVisitante int
 );
 
@@ -116,17 +117,17 @@ Insert into Animal(nome, sexo, idade, especie, peso, id_habitat) values
 
 -- Inserindo dados na tabela Visitante
 
-Insert into Visitante(nome, idade) values
-('Lucas Almeida', 14),
-('Fernanda Costa', 27),
-('Gabriel Souza', 35),
-('Mariana Lima', 19),
-('Pedro Tavares', 2),
-('Juliana Martins', 31),
-('Rafael Gomes', 22),
-('Beatriz Oliveira', 17),
-('Mateus Ferreira', 45),
-('Mary Braverman', 67);
+Insert into Visitante(nome, idade, aniversario) values
+('Lucas Almeida', 14, true),
+('Fernanda Costa', 27, true),
+('Gabriel Souza', 35, false),
+('Mariana Lima', 19, true),
+('Pedro Tavares', 2, false),
+('Juliana Martins', 31, false),
+('Rafael Gomes', 22, false),
+('Beatriz Oliveira', 17, false),
+('Mateus Ferreira', 45, false),
+('Mary Braverman', 67, false);
 
 -- Inserindo dados na tabela Ingresso
 
@@ -246,3 +247,30 @@ begin
 
 end $$
 delimiter ;
+
+-- Trigger 
+delimiter $$
+
+drop trigger if exists promocao_aniversario;
+create trigger promocao_aniversario before update on Visitante for each row
+begin
+	 
+	if new.aniversario = true and old.aniversario = false then
+		update Ingresso
+        set preco = preco * 0.8
+        where id_visitante = new.id_Visitante;
+	end if;
+end; $$ 
+delimiter ;
+
+update Visitante set aniversario = false where id_Visitante = 6;
+update Visitante set aniversario = true where id_Visitante = 9;
+
+select nome, idade, aniversario from Visitante;
+
+-- Views
+create view Animais_Peso_Idade as (select peso, idade from Animais);
+
+select * from Animais_Peso_Idade;
+
+drop view Animais_Peso_Idade;
