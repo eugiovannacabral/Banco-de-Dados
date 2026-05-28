@@ -32,8 +32,7 @@ create table Animal (
 create table Visitante ( 
     id_Visitante int primary key auto_increment,
     nome varchar(45), 
-    idade int,
-    aniversario boolean
+    idade int
     -- numeroVisitante int
 );
 
@@ -273,8 +272,10 @@ begin
     end if;
 
 end $$
-
 delimiter ;
+
+ -- insert into Ingresso(data, tipo, preco, id_visitante) values ('2026-06-01', 'Inteira', 100, 5);
+ -- select * from Ingresso where id_visitante = 5;
 
 -- Views
 create view Animais_Peso_Idade as (select peso, idade from Animais);
