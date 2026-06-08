@@ -3,43 +3,10 @@ package main.br.inatel.projetozoologico.Model;
 public class Animal {
 
     private int idAnimal;
-
     private String nome;
-    public String getSexo() {
-        return sexo;
-    }
-
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
-    }
-
     private String sexo;
-    public int getIdade() {
-        return idade;
-    }
-
-    public void setIdade(int idade) {
-        this.idade = idade;
-    }
-
     private int idade;
-    public String getEspecie() {
-        return especie;
-    }
-
-    public void setEspecie(String especie) {
-        this.especie = especie;
-    }
-
     private String especie;
-    public double getPeso() {
-        return peso;
-    }
-
-    public void setPeso(double peso) {
-        this.peso = peso;
-    }
-
     private double peso;
 
     private Habitat habitat; //Relacionamento de 1:N com o Hbitat
@@ -53,18 +20,23 @@ public class Animal {
         this.peso = peso;
     }
 
-    public void mostraInfoPersonagem() {
-        System.out.println(ANSI_CYAN  + "\nNome do NPC: " + nome + ANSI_RESET);
-        System.out.println(ANSI_BLUE + "Idade: " + idade + " anos");
-        System.out.println("Gênero: " + genero);
-        System.out.println("Ocupacao: " + ocupacao + ANSI_RESET);
-        if(arcana == null){
-            System.out.println(ANSI_BLUE + "Não tem arcana!" + ANSI_RESET);
-        }
-        else {
-            System.out.println(ANSI_BLUE + "Arcana: " + arcana + "\n" + ANSI_RESET);
-        }
+    public void mostraInfoAnimal() {
+    System.out.println("\n=== DADOS DO ANIMAL ===");
+
+    System.out.println("ID: " + idAnimal);
+    System.out.println("Nome: " + nome);
+    System.out.println("Espécie: " + especie);
+    System.out.println("Sexo: " + sexo);
+    System.out.println("Idade: " + idade + " anos");
+    System.out.println("Peso: " + peso + " kg");
+
+    // para verificar se o animal pertence a um habitat
+    if (habitat == null) {
+        System.out.println("Habitat não cadastrado!");
+    } else {
+        System.out.println("Habitat: " + habitat.getNome());
     }
+}
 
     public int getIdAnimal() {
         return idAnimal;
@@ -82,5 +54,44 @@ public class Animal {
         this.nome = nome;
     }
 
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+     public int getIdade() {
+        return idade;
+    }
+
+    public void setIdade(int idade) {
+        this.idade = idade;
+    }
+
+    public String getEspecie() {
+        return especie;
+    }
+
+    public void setEspecie(String especie) {
+        this.especie = especie;
+    }
+
+    public double getPeso() {
+        return peso;
+    }
+
+    public void setPeso(double peso) {
+        this.peso = peso;
+    }
+
+    public Habitat getHabitat() {
+        return habitat;
+    }
+
+    public void setHabitat(Habitat habitat) {
+        this.habitat = habitat;
+    }
 
 }
