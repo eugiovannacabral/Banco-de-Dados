@@ -11,7 +11,7 @@ public class ConnectionDAO {
     ResultSet rs;                  // Resultado das consultas SQL
 
     // Informações de acesso ao banco de dados:
-    String database = "Projeto_persona"; // Nome do BD
+    String database = "zoologico"; // Nome do BD
     String user = "root";
     String password = "root";
     String url = "jdbc:mysql://localhost:3306/" + database;
