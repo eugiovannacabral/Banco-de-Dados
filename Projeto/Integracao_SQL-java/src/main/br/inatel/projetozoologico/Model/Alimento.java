@@ -1,6 +1,7 @@
 package main.br.inatel.projetozoologico.Model;
 
 public class Alimento {
+
     private int idAlimento;
     private String tipoDeDieta;
     private int estoque;
@@ -14,17 +15,17 @@ public class Alimento {
     }
 
     public void mostraInfoAlimento() {
-        System.out.println("\n=== DADOS DO Alimento ===");
+
+        System.out.println("\n=== DADOS DO ALIMENTO ===");
 
         System.out.println("ID: " + idAlimento);
         System.out.println("Nome: " + nome);
-        System.out.println("Dieta na qual possui este alimento: " + tipoDeDieta);
+        System.out.println("Tipo de dieta: " + tipoDeDieta);
 
-        // para verificar se tem deste alimento nno estoque
-        if (estoque == null) {
-            System.out.println("Alimento não cadastrado!");
+        if (estoque <= 0) {
+            System.out.println("Produto sem estoque!");
         } else {
-            System.out.println("Estoque deste alimento: " + estoque.getNome());
+            System.out.println("Quantidade em estoque: " + estoque);
         }
     }
 

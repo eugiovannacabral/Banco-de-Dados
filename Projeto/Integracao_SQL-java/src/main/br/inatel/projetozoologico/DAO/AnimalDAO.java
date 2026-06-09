@@ -4,6 +4,8 @@ import main.br.inatel.projetozoologico.Model.Animal;
 import main.br.inatel.projetozoologico.Model.Habitat;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.List;
 
 public class AnimalDAO extends ConnectionDAO {
@@ -11,24 +13,29 @@ public class AnimalDAO extends ConnectionDAO {
     // ------------INSERÇÃO------------//
 
     public boolean insertAnimal(Animal animal) {
+
         connectToDb();
 
-        String sql = "INSERT INTO Animal(nome, sexo, idade, especie, peso, id_habitat) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql =
+                "INSERT INTO Animal(nome, sexo, idade, especie, peso, id_habitat) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
-
-            //cria um comando SQL preparado, esses numeros são as posicoes dos '?'
-            //o get pega a informação do objeto Java e o set e para enviar as informacoes ao sql
-            pst = connection.prepareStatement(sql);
+            pst = connection.prepareStatement(sql, java.sql.Statement.RETURN_GENERATED_KEYS);
 
             pst.setString(1, animal.getNome());
             pst.setString(2, animal.getSexo());
             pst.setInt(3, animal.getIdade());
             pst.setString(4, animal.getEspecie());
             pst.setDouble(5, animal.getPeso());
-            pst.setInt(6, animal.getHabitat().getIdHabitat()); // pega o ID do habitat associado ao animal
+            pst.setInt(6, animal.getHabitat().getIdHabitat());
 
-            pst.execute();
+            pst.executeUpdate();
+
+            ResultSet rsGerado = pst.getGeneratedKeys();
+
+            if (rsGerado.next()) {
+                animal.setIdAnimal(rsGerado.getInt(1));
+            }
 
             return true;
 
@@ -38,13 +45,14 @@ public class AnimalDAO extends ConnectionDAO {
 
             return false;
 
-        //garante que conexões de banco de dados sempre sejam liberadas idenpedente de ocorrer sucesso ou erro na implementação
         } finally {
+
             try {
-                if(pst != null)
+
+                if (pst != null)
                     pst.close();
 
-                if(connection != null)
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {
@@ -55,7 +63,6 @@ public class AnimalDAO extends ConnectionDAO {
         }
     }
 
-    //TEM QUE VER DE ACRESCENTAR AQUELES OUTROS ATRIBUTOS DO VIDEO
     // ------------SELECT COMPLETO DO ANIMAL------------//
 
     public List<Animal> selectAnimal() {
@@ -262,7 +269,8 @@ public class AnimalDAO extends ConnectionDAO {
 
         connectToDb();
 
-        String sql = "UPDATE Animal SET nome=?, sexo=?, idade=?, especie=?, peso=?, id_habitat=? WHERE id_Animal=?";
+        String sql =
+                "UPDATE Animal SET nome=?, sexo=?, idade=?, especie=?, peso=?, id_habitat=? WHERE id_Animal=?";
 
         try {
 
@@ -274,8 +282,9 @@ public class AnimalDAO extends ConnectionDAO {
             pst.setString(4, animal.getEspecie());
             pst.setDouble(5, animal.getPeso());
             pst.setInt(6, animal.getHabitat().getIdHabitat());
+            pst.setInt(7, animal.getIdAnimal());
 
-            pst.execute();
+            pst.executeUpdate();
 
             return true;
 
@@ -289,10 +298,10 @@ public class AnimalDAO extends ConnectionDAO {
 
             try {
 
-                if(pst != null)
+                if (pst != null)
                     pst.close();
 
-                if(connection != null)
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {

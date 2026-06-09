@@ -1,6 +1,6 @@
 package main.br.inatel.projetozoologico.DAO;
 
-import main.br.inatel.projetozoologico.Model.Animal;
+import main.br.inatel.projetozoologico.Model.Alimento;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,22 +8,21 @@ import java.util.List;
 
 public class AlimentoDAO extends ConnectionDAO {
 
-    // ------------INSERÇÃO------------//
+    // ------------ INSERÇÃO ------------ //
 
-    public boolean insertAlimento(Alimento alimento){
+    public boolean insertAlimento(Alimento alimento) {
+
         connectToDb();
 
-        String sql = "INSERT INTO Alimento(idAlimento, tipoDeDieta, estoque, nome) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Alimento(tipo_de_dieta, estoque, nome) VALUES (?, ?, ?)";
 
         try {
-            //cria um comando SQL preparado, esses numeros são as posicoes dos '?'
-            //o get pega a informação do objeto Java e o set e para enviar as informacoes ao sql
+
             pst = connection.prepareStatement(sql);
 
-            pst.setString(1, alimento.getIdAlimento());
-            pst.setString(2, alimento.getTipoDeDieta());
-            pst.setInt(3, alimento.getEstoque());
-            pst.setString(4, alimento.getNome());// pega o ID do habitat associado ao animal
+            pst.setString(1, alimento.getTipoDeDieta());
+            pst.setInt(2, alimento.getEstoque());
+            pst.setString(3, alimento.getNome());
 
             pst.execute();
 
@@ -31,17 +30,18 @@ public class AlimentoDAO extends ConnectionDAO {
 
         } catch (SQLException e) {
 
-            System.out.println("Erro ao inserir a: " +alimento e.getMessage());
+            System.out.println("Erro ao inserir alimento: " + e.getMessage());
 
             return false;
 
-            //garante que conexões de banco de dados sempre sejam liberadas idenpedente de ocorrer sucesso ou erro na implementação
         } finally {
-            try{
-                if(pst != null)
+
+            try {
+
+                if (pst != null)
                     pst.close();
 
-                if(connection != null)
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {
@@ -52,8 +52,7 @@ public class AlimentoDAO extends ConnectionDAO {
         }
     }
 
-    //TEM QUE VER DE ACRESCENTAR AQUELES OUTROS ATRIBUTOS DO VIDEO
-    // ------------SELECT COMPLETO DO ANIMAL------------//
+    // ------------ SELECT COMPLETO ------------ //
 
     public List<Alimento> selectAlimento() {
 
@@ -72,14 +71,13 @@ public class AlimentoDAO extends ConnectionDAO {
             while (rs.next()) {
 
                 Alimento alimento = new Alimento(
-                        rs.getInt("IdAlimento"),
-                        rs.getString("tipoDeDieta"),
+                        rs.getInt("id_Alimento"),
+                        rs.getString("tipo_de_dieta"),
                         rs.getInt("estoque"),
                         rs.getString("nome")
                 );
 
-                alimentos.add(alimento)
-
+                alimentos.add(alimento);
             }
 
         } catch (SQLException e) {
@@ -87,15 +85,16 @@ public class AlimentoDAO extends ConnectionDAO {
             System.out.println("Erro ao buscar alimentos: " + e.getMessage());
 
         } finally {
+
             try {
 
-                if(rs != null)
+                if (rs != null)
                     rs.close();
 
-                if(st != null)
+                if (st != null)
                     st.close();
 
-                if(connection != null)
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {
@@ -108,7 +107,7 @@ public class AlimentoDAO extends ConnectionDAO {
         return alimentos;
     }
 
-    // ------------SELECT POR ATRIBUTO DE ANIMAL------------//
+    // ------------ SELECT POR NOME ------------ //
 
     public Alimento selectAlimentoByNome(String nome) {
 
@@ -116,27 +115,27 @@ public class AlimentoDAO extends ConnectionDAO {
 
         connectToDb();
 
-        String sql = "SELECT * FROM Alimento WHERE nome=?";
+        String sql = "SELECT * FROM Alimento WHERE nome = ?";
 
         try {
 
             pst = connection.prepareStatement(sql);
-            pst.setString(1, n);
+
+            pst.setString(1, nome);
+
             rs = pst.executeQuery();
 
-            // Está retornando todas as informações do Alimento, depois de fazer a busca pelo o seu nome
-            //" Pegue os dados que vieram do banco e transforme em um objeto Alimento"
-            if(rs.next()) {
+            if (rs.next()) {
 
                 alimento = new Alimento(
-                        rs.getInt("idAlimento"),
-                        rs.getString("tipoDeDieta"),
-                        rs.getInt"estoque"),
+                        rs.getInt("id_Alimento"),
+                        rs.getString("tipo_de_dieta"),
+                        rs.getInt("estoque"),
                         rs.getString("nome")
                 );
-        }
+            }
 
-    } catch (SQLException e) {
+        } catch (SQLException e) {
 
             System.out.println("Erro ao buscar alimento: " + e.getMessage());
 
@@ -144,13 +143,13 @@ public class AlimentoDAO extends ConnectionDAO {
 
             try {
 
-                if(rs != null)
+                if (rs != null)
                     rs.close();
 
-                if(pst != null)
+                if (pst != null)
                     pst.close();
 
-                if(connection != null)
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {
@@ -161,22 +160,30 @@ public class AlimentoDAO extends ConnectionDAO {
         }
 
         return alimento;
-
     }
 
-    // ------------UPDATE------------//
-    public boolean updateAlimento (Alimento alimento) {
+    // ------------ UPDATE ------------ //
+
+    public boolean updateAlimento(Alimento alimento) {
 
         connectToDb();
 
-        String sql = "UPDATE Alimento SET tipoDeDieta=?, estoque=?, nome=? WHERE idAlimento=?";
+        String sql = """
+                UPDATE Alimento
+                SET tipo_de_dieta = ?,
+                    estoque = ?,
+                    nome = ?
+                WHERE id_Alimento = ?
+                """;
 
         try {
+
             pst = connection.prepareStatement(sql);
 
-            pst.setString(1, animal.getTipoDeDieta());
-            pst.setInt(2, animal.getEstoque());
-            pst.setString(3, animal.getNome());
+            pst.setString(1, alimento.getTipoDeDieta());
+            pst.setInt(2, alimento.getEstoque());
+            pst.setString(3, alimento.getNome());
+            pst.setInt(4, alimento.getIdAlimento());
 
             pst.execute();
 
@@ -192,10 +199,10 @@ public class AlimentoDAO extends ConnectionDAO {
 
             try {
 
-                if(pst != null)
+                if (pst != null)
                     pst.close();
 
-                if(connection != null)
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {
@@ -206,17 +213,20 @@ public class AlimentoDAO extends ConnectionDAO {
         }
     }
 
-    // ------------DELETE------------//
+    // ------------ DELETE ------------ //
+
     public boolean deleteAlimento(String nome) {
 
         connectToDb();
 
-        String sql = "DELETE FROM Alimento WHERE nome=?";
+        String sql = "DELETE FROM Alimento WHERE nome = ?";
 
         try {
 
             pst = connection.prepareStatement(sql);
+
             pst.setString(1, nome);
+
             pst.execute();
 
             return true;
@@ -228,12 +238,60 @@ public class AlimentoDAO extends ConnectionDAO {
             return false;
 
         } finally {
+
             try {
 
-                if(pst != null)
+                if (pst != null)
                     pst.close();
 
-                if(connection != null)
+                if (connection != null)
+                    connection.close();
+
+            } catch (SQLException e) {
+
+                System.out.println("Erro ao fechar recursos: " + e.getMessage());
+
+            }
+        }
+    }
+
+    // ------------ ASSOCIAÇÃO N:M COM ANIMAL ------------ //
+
+    public boolean associarAlimentoAnimal(int idAlimento, int idAnimal) {
+
+        connectToDb();
+
+        String sql = """
+                INSERT INTO Alimento_has_Animal
+                (id_alimento, id_animal)
+                VALUES (?, ?)
+                """;
+
+        try {
+
+            pst = connection.prepareStatement(sql);
+
+            pst.setInt(1, idAlimento);
+            pst.setInt(2, idAnimal);
+
+            pst.execute();
+
+            return true;
+
+        } catch (SQLException e) {
+
+            System.out.println("Erro ao associar alimento e animal: " + e.getMessage());
+
+            return false;
+
+        } finally {
+
+            try {
+
+                if (pst != null)
+                    pst.close();
+
+                if (connection != null)
                     connection.close();
 
             } catch (SQLException e) {
@@ -244,4 +302,3 @@ public class AlimentoDAO extends ConnectionDAO {
         }
     }
 }
-
