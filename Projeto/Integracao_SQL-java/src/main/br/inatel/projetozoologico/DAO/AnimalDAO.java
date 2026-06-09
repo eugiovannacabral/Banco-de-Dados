@@ -169,7 +169,94 @@ public class AnimalDAO extends ConnectionDAO {
         return animal;
     }
 
+     // ------------SELECT JOIN------------//
+
+    public Animal selectAnimalComHabitat(String nome) {
+
+    Animal animal = null;
+
+    connectToDb();
+
+    String sql = """
+            SELECT
+                a.id_Animal,
+                a.nome AS nomeAnimal,
+                a.sexo,
+                a.idade,
+                a.especie,
+                a.peso,
+
+                h.id_Habitat,
+                h.nome AS nomeHabitat,
+                h.clima,
+                h.lotacao,
+                h.tipo
+
+            FROM Animal a
+            INNER JOIN Habitat h
+                ON a.id_habitat = h.id_Habitat
+
+            WHERE a.nome = ?
+            """;
+
+    try {
+
+        pst = connection.prepareStatement(sql);
+        pst.setString(1, nome);
+
+        rs = pst.executeQuery();
+
+        if (rs.next()) {
+
+            Habitat habitat = new Habitat(
+                    rs.getInt("id_Habitat"),
+                    rs.getString("nomeHabitat"),
+                    rs.getString("clima"),
+                    rs.getInt("lotacao"),
+                    rs.getString("tipo")
+            );
+
+            animal = new Animal(
+                    rs.getInt("id_Animal"),
+                    rs.getString("nomeAnimal"),
+                    rs.getString("sexo"),
+                    rs.getInt("idade"),
+                    rs.getString("especie"),
+                    rs.getDouble("peso")
+            );
+
+            animal.setHabitat(habitat);
+        }
+
+    } catch (SQLException e) {
+
+        System.out.println("Erro ao buscar animal com habitat: " + e.getMessage());
+
+    } finally {
+
+        try {
+
+            if (rs != null)
+                rs.close();
+
+            if (pst != null)
+                pst.close();
+
+            if (connection != null)
+                connection.close();
+
+        } catch (SQLException e) {
+
+            System.out.println("Erro ao fechar recursos: " + e.getMessage());
+
+        }
+    }
+
+    return animal;
+}
+
     // ------------UPDATE------------//
+
     public boolean updateAnimal(Animal animal) {
 
         connectToDb();
