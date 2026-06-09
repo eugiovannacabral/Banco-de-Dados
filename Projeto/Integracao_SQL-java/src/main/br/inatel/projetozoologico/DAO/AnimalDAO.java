@@ -1,7 +1,7 @@
 package main.br.inatel.projetozoologico.DAO;
 
 import main.br.inatel.projetozoologico.Model.Animal;
-
+import main.br.inatel.projetozoologico.Model.Habitat;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class AnimalDAO extends ConnectionDAO {
     public boolean insertAnimal(Animal animal) {
         connectToDb();
 
-        String sql = "INSERT INTO Animal(nome, sexo, idade, especie, peso, Habitat_idHabitat) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Animal(nome, sexo, idade, especie, peso, id_habitat) VALUES (?, ?, ?, ?, ?, ?)";
 
         try {
 
@@ -75,7 +75,7 @@ public class AnimalDAO extends ConnectionDAO {
             while(rs.next()) {
 
                 Animal animal = new Animal(
-                        rs.getInt("idAnimal"),
+                        rs.getInt("id_Animal"),
                         rs.getString("nome"),
                         rs.getString("sexo"),
                         rs.getInt("idade"),
@@ -133,7 +133,7 @@ public class AnimalDAO extends ConnectionDAO {
             if(rs.next()) {
 
                 animal = new Animal(
-                        rs.getInt("idAnimal"),
+                        rs.getInt("id_Animal"),
                         rs.getString("nome"),
                         rs.getString("sexo"),
                         rs.getInt("idade"),
@@ -225,6 +225,7 @@ public class AnimalDAO extends ConnectionDAO {
                     rs.getDouble("peso")
             );
 
+            // Está associando o habitat ao animal
             animal.setHabitat(habitat);
         }
 
@@ -261,7 +262,7 @@ public class AnimalDAO extends ConnectionDAO {
 
         connectToDb();
 
-        String sql = "UPDATE Animal SET nome=?, sexo=?, idade=?, especie=?, peso=?, Habitat_idHabitat=? WHERE idAnimal=?";
+        String sql = "UPDATE Animal SET nome=?, sexo=?, idade=?, especie=?, peso=?, id_habitat=? WHERE id_Animal=?";
 
         try {
 

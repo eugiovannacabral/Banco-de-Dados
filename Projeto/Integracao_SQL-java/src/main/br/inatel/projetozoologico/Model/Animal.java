@@ -9,7 +9,7 @@ public class Animal {
     private String especie;
     private double peso;
 
-    private Habitat habitat; //Relacionamento de 1:N com o Hbitat
+    private Habitat habitat; //Relacionamento de 1:N com o Habitat
 
     public Animal(int idAnimal,String nome, String sexo, int idade, String especie, double peso) {
         this.idAnimal = idAnimal;

@@ -1,6 +1,7 @@
 package main.br.inatel.projetozoologico.Model;
 
 public class Habitat {
+
     private int idHabitat;
     private String nome;
     private String clima;
@@ -66,4 +67,3 @@ public class Habitat {
         this.tipo = tipo;
     }
 }
-
