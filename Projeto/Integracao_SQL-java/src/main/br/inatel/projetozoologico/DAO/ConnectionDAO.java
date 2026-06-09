@@ -2,8 +2,8 @@ package main.br.inatel.projetozoologico.DAO;
 
 import java.sql.*;
 
-public class ConnectionDAO {
-    Connection connection;// Conexão com o banco
+public abstract class ConnectionDAO {
+    static Connection connection;// Conexão com o banco
 
     // Parâmetros utilizados nas subclasses:
     PreparedStatement pst;         // Comando SQL com parâmetros
@@ -11,14 +11,15 @@ public class ConnectionDAO {
     ResultSet rs;                  // Resultado das consultas SQL
 
     // Informações de acesso ao banco de dados:
-    String database = "zoologico"; // Nome do BD
-    String user = "root";
-    String password = "root";
-    String url = "jdbc:mysql://localhost:3306/" + database;
+    static String database = "zoologico"; // Nome do BD
+    static String user = "root";
+    static String password = "root";
+    static String url = "jdbc:mysql://localhost:3306/" + database;
 
     // Estabelecer a conexão com o banco:
-    public Connection connectToDb(){
+    public static Connection connectToDb(){
         try {
+            System.out.println("Deu certo !");
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             System.out.println("Erro ao conectar com o banco de dados: " + e.getMessage());

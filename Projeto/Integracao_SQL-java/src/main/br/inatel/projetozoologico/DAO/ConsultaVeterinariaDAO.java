@@ -1,5 +1,5 @@
 package main.br.inatel.projetozoologico.DAO;
 
-public class ConsultaVeterinaria {
+public class ConsultaVeterinariaDAO {
     
 }

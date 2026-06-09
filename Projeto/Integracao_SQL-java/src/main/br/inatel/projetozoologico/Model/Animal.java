@@ -20,6 +20,14 @@ public class Animal {
         this.peso = peso;
     }
 
+    public Animal(String nome, String sexo, int idade, String especie, double peso) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.idade = idade;
+        this.especie = especie;
+        this.peso = peso;
+    }
+
     public void mostraInfoAnimal() {
     System.out.println("\n=== DADOS DO ANIMAL ===");
 
