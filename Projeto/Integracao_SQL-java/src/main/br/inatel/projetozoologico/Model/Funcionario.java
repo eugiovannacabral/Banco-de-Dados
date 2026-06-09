@@ -14,6 +14,12 @@ public class Funcionario {
         this.salario = salario;
     }
 
+    public Funcionario(String nome, String funcao, double salario) {
+        this.nome = nome;
+        this.funcao = funcao;
+        this.salario = salario;
+    }
+
     public void mostraInfoFuncionario() {
 
         System.out.println("\n=== DADOS DO FUNCIONÁRIO ===");

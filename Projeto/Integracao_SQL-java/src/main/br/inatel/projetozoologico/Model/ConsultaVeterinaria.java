@@ -8,12 +8,17 @@ public class ConsultaVeterinaria {
     private Date data;
     private String estadoDeSaude;
 
-    //Rlacionamento 1:N com as classes animal e funcionario
+    //Relacionamento 1:N com as classes animal e funcionario
     private Animal animal;
     private Funcionario funcionario;
 
     public ConsultaVeterinaria(int idConsultaVeterinaria, Date data, String estadoDeSaude) {
         this.idConsultaVeterinaria = idConsultaVeterinaria;
+        this.data = data;
+        this.estadoDeSaude = estadoDeSaude;
+    }
+
+    public ConsultaVeterinaria(Date data, String estadoDeSaude) {
         this.data = data;
         this.estadoDeSaude = estadoDeSaude;
     }
