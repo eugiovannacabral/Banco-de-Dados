@@ -2,9 +2,11 @@ package main.br.inatel.projetozoologico;
 import main.br.inatel.projetozoologico.DAO.ConnectionDAO;
 import main.br.inatel.projetozoologico.DAO.AnimalDAO;
 import main.br.inatel.projetozoologico.DAO.HabitatDAO;
+import main.br.inatel.projetozoologico.DAO.AlimentoDAO;
 
 import main.br.inatel.projetozoologico.Model.Animal;
 import main.br.inatel.projetozoologico.Model.Habitat;
+import main.br.inatel.projetozoologico.Model.Alimento;
 
 import java.util.Scanner;
 import java.util.Locale;
@@ -181,6 +183,65 @@ public class Main extends ConnectionDAO {
 
 
                 }
+
+                if(opcao == 3) {
+                    while (true) {
+
+                        int opcao_alimento = 0;
+                        System.out.println("--------MENU ALIMENTO-------");
+                        System.out.println("1- Cadastrar um Alimento");
+                        System.out.println("2- Listar todos os Alimentos");
+                        System.out.println("3- Buscar um alimento por meio do nome");
+                        System.out.println("4- Atualização dos dados de um Alimento");
+                        System.out.println("5- Deletar de um Alimento ");
+                        System.out.println("6- Voltar");
+
+                        opcao_alimento = teclado.nextInt();
+                        teclado.nextLine();
+
+                        if (opcao_alimento == 1) {
+                            //Primeiro registramos cada um dos parâmetros em relação aos atributos do SQL
+                            String tipoDeDieta;
+                            System.out.println("Nome da Dieta:");
+                            tipoDeDieta = teclado.nextLine();
+
+                            int estoque;
+                            System.out.println("Quantidade do alimento no estoque:");
+                            estoque = teclado.nextInt();
+                            teclado.nextLine(); // limpa buffer
+
+                            String nomeAlimento;
+                            System.out.println("Nome do Alimento:");
+                            nomeAlimento = teclado.nextLine();
+
+                            Alimento alimento = new Alimento(tipoDeDieta, estoque, nomeAlimento);
+                            AlimentoDAO alimentodao = new AlimentoDAO();
+                            alimentodao.insertAlimento(alimento);
+                        } else if (opcao_alimento == 2) {
+                            // Irá ser mostrado todos os animais registrados anteriormente
+                            // Como não há parâmetros a serem avaliados em selectAlimento, não é preciso fazer mais nada
+                            AlimentoDAO alimentodao = new AlimentoDAO();
+
+                            for (Alimento alimento : alimentodao.selectAlimento()) {
+                                alimento.mostraInfoAlimento();
+                            }
+                        } else if (opcao_alimento == 3) {
+                            System.out.println("Digite o nome do alimento:");
+                            String nomeAlimento = teclado.nextLine();
+
+                            AlimentoDAO alimentodao = new AlimentoDAO();
+
+                            Alimento alimento = alimentodao.selectAlimentoByNome(nomeAlimento);
+
+                            if (alimento != null) {
+                                alimento.mostraInfoAlimento();
+                            } else {
+                                System.out.println("Alimento não encontrado!");
+                            }
+                        }
+                    }
+                }
+
                 if(opcao == 7){
                     break;
                 }

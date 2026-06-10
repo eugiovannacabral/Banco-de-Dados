@@ -14,6 +14,13 @@ public class Alimento {
         this.nome = nome;
     }
 
+    public Alimento(String tipoDeDieta, int estoque, String nome) {
+        this.idAlimento = idAlimento;
+        this.tipoDeDieta = tipoDeDieta;
+        this.estoque = estoque;
+        this.nome = nome;
+    }
+
     public void mostraInfoAlimento() {
 
         System.out.println("\n=== DADOS DO ALIMENTO ===");
