@@ -134,37 +134,28 @@ public class AnimalDAO extends ConnectionDAO {
 
     // ------------SELECT POR ATRIBUTO DE ANIMAL------------//
 
-    public Animal selectAnimalByName(String nome) {
+    public String selectEspecieByNome(String nome) {
 
-        Animal animal = null;
+        String especie = null;
 
         connectToDb();
 
-        String sql = "SELECT * FROM Animal WHERE nome=?";
+        String sql = "SELECT especie FROM Animal WHERE nome=?";
 
         try {
 
             pst = connection.prepareStatement(sql);
             pst.setString(1, nome);
+
             rs = pst.executeQuery();
 
-            // Está retornando todas as informações do Animal, depois de fazer a busca pelo o seu nome
-            //" Pegue os dados que vieram do banco e transforme em um objeto Animal"
             if(rs.next()) {
-
-                animal = new Animal(
-                        rs.getInt("id_Animal"),
-                        rs.getString("nome"),
-                        rs.getString("sexo"),
-                        rs.getInt("idade"),
-                        rs.getString("especie"),
-                        rs.getDouble("peso")
-                );
+                especie = rs.getString("especie");
             }
 
         } catch (SQLException e) {
 
-            System.out.println("Erro ao buscar animal: " + e.getMessage());
+            System.out.println("Erro ao buscar espécie: " + e.getMessage());
 
         } finally {
 
@@ -186,7 +177,7 @@ public class AnimalDAO extends ConnectionDAO {
             }
         }
 
-        return animal;
+        return especie;
     }
 
      // ------------SELECT JOIN------------//

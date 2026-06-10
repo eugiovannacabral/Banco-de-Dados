@@ -39,11 +39,11 @@ public class Animal {
     System.out.println("Peso: " + peso + " kg");
 
     // para verificar se o animal pertence a um habitat
-    if (habitat == null) {
-        System.out.println("Habitat não cadastrado!");
-    } else {
-        System.out.println("Habitat: " + habitat.getIdHabitat());
-    }
+        if (habitat == null) {
+            System.out.println("Habitat não cadastrado!");
+        } else {
+            habitat.mostraInfoHabitat();
+        }
 }
 
     public int getIdAnimal() {

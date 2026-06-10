@@ -21,12 +21,13 @@ public class Main extends ConnectionDAO {
                 int opcao = 0;
                 System.out.println("-----BEM-VINDO AO NOSSO ZOOLÓGICO-------");
                 System.out.println("1- Animais");
-                System.out.println("2- Funcionários");
-                System.out.println("3- Habitat");
-                System.out.println("4- Consulta Veterinária");
-                System.out.println("5- Ingresso");
-                System.out.println("6- Visitante");
-                System.out.println("7- Sair");
+                System.out.println("2- Habitat");
+                System.out.println("3- Alimento");
+                System.out.println("4- Funcionário");
+                System.out.println("5- Consulta Veterinária");
+                System.out.println("6- Ingresso");
+                System.out.println("7- Visitante");
+                System.out.println("8- Sair");
                 System.out.println("-----------------------------------");
 
                 opcao = teclado.nextInt();
@@ -35,9 +36,10 @@ public class Main extends ConnectionDAO {
                     while(true){
 
                         int opcao_animal = 0;
+                        System.out.println("--------MENU ANIMAL-------");
                         System.out.println("1- Cadastrar um Animal");
-                        System.out.println("2- Listar as informações de um Animal");
-                        System.out.println("3- Buscar um Animal por meio do nome");
+                        System.out.println("2- Listar todos os An1imal");
+                        System.out.println("3- Buscar uma espécie por meio do nome do animal");
                         System.out.println("4- Listar as informações de um Animal e de seu habitat");
                         System.out.println("5- Atualização dos dados de um Animal ");
                         System.out.println("6- Deletar de um Animal ");
@@ -90,19 +92,86 @@ public class Main extends ConnectionDAO {
                             }
                         }
                         else if (opcao_animal == 3){
-                            String nomeAnimal;
-
-                            System.out.println("Digite o nome do animal que deseja buscar:");
-                            nomeAnimal = teclado.nextLine();
+                            System.out.println("Digite o nome do animal:");
+                            String nomeAnimal = teclado.nextLine();
 
                             AnimalDAO animaldao = new AnimalDAO();
 
-                            Animal animal = animaldao.selectAnimalByName(nomeAnimal);
+                            String especie = animaldao.selectEspecieByNome(nomeAnimal);
+
+                            if(especie != null){
+                                System.out.println("Espécie: " + especie);
+                            }else{
+                                System.out.println("Animal não encontrado!");
+                            }
+                        }
+                        else if (opcao_animal == 4){
+
+                            System.out.println("Digite o nome do animal:");
+                            String nomeAnimal = teclado.nextLine();
+
+                            AnimalDAO animaldao = new AnimalDAO();
+
+                            Animal animal = animaldao.selectAnimalComHabitat(nomeAnimal);
 
                             if(animal != null){
                                 animal.mostraInfoAnimal();
                             }else{
                                 System.out.println("Animal não encontrado!");
+                            }
+                        }
+                        else if (opcao_animal == 5){
+
+                            System.out.println("Digite o ID do animal que deseja atualizar:");
+                            int idAnimal = teclado.nextInt();
+                            teclado.nextLine();
+
+                            System.out.println("Novo nome:");
+                            String nomeAnimal = teclado.nextLine();
+
+                            System.out.println("Novo sexo:");
+                            String sexoAnimal = teclado.nextLine();
+
+                            System.out.println("Nova idade:");
+                            int idadeAnimal = teclado.nextInt();
+                            teclado.nextLine();
+
+                            System.out.println("Nova espécie:");
+                            String especieAnimal = teclado.nextLine();
+
+                            System.out.println("Novo peso:");
+                            double pesoAnimal = teclado.nextDouble();
+                            teclado.nextLine();
+
+                            System.out.println("Novo ID do habitat:");
+                            int idHabitat = teclado.nextInt();
+                            teclado.nextLine();
+
+                            Habitat habitat = new Habitat(idHabitat, null, null, 0, null);
+
+                            Animal animal = new Animal(idAnimal, nomeAnimal, sexoAnimal, idadeAnimal, especieAnimal, pesoAnimal);
+
+                            animal.setHabitat(habitat);
+
+                            AnimalDAO animaldao = new AnimalDAO();
+
+                            if(animaldao.updateAnimal(animal)){
+                                System.out.println("Animal atualizado com sucesso!");
+                            }else{
+                                System.out.println("Erro ao atualizar animal!");
+                            }
+                        }
+                        else if (opcao_animal == 6){
+
+                            System.out.println("Digite o nome do animal que deseja deletar:");
+                            String nomeAnimal = teclado.nextLine();
+
+                            AnimalDAO animaldao = new AnimalDAO();
+
+                            if(animaldao.deleteAnimal(nomeAnimal)){
+                                System.out.println("Animal deletado com sucesso!");
+                            }else{
+                                System.out.println("Erro ao deletar animal!");
                             }
                         }
                         else if(opcao_animal == 7){
