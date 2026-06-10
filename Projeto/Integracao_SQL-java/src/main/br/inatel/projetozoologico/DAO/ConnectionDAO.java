@@ -19,7 +19,6 @@ public abstract class ConnectionDAO {
     // Estabelecer a conexão com o banco:
     public static Connection connectToDb(){
         try {
-            System.out.println("Deu certo !");
             connection = DriverManager.getConnection(url, user, password);
         } catch (SQLException e) {
             System.out.println("Erro ao conectar com o banco de dados: " + e.getMessage());

@@ -90,6 +90,18 @@ public class AnimalDAO extends ConnectionDAO {
                         rs.getDouble("peso")
                 );
 
+                // Cria um habitat apenas com o ID
+                Habitat habitat = new Habitat(
+                        rs.getInt("id_habitat"),
+                        null,
+                        null,
+                        0,
+                        null
+                );
+
+                // Associa o habitat ao animal
+                animal.setHabitat(habitat);
+
                 animais.add(animal);
             }
 
@@ -98,6 +110,7 @@ public class AnimalDAO extends ConnectionDAO {
             System.out.println("Erro ao buscar animais: " + e.getMessage());
 
         } finally {
+
             try {
 
                 if(rs != null)

@@ -42,7 +42,7 @@ public class Animal {
     if (habitat == null) {
         System.out.println("Habitat não cadastrado!");
     } else {
-        System.out.println("Habitat: " + habitat.getNome());
+        System.out.println("Habitat: " + habitat.getIdHabitat());
     }
 }
 
