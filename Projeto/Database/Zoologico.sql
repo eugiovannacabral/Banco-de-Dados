@@ -24,7 +24,7 @@ create table Animal (
     especie varchar(100), 
     peso double (10, 2), 
     id_habitat int, 
-    foreign key (id_habitat) references Habitat(id_Habitat)
+    foreign key (id_habitat) references Habitat(id_Habitat) on delete cascade on update cascade
 );
 
 
@@ -44,7 +44,7 @@ create table Ingresso (
     -- quantidade int, 
     preco double (10, 2),
     id_visitante int, 
-    foreign key (id_visitante) references Visitante(id_Visitante)
+    foreign key (id_visitante) references Visitante(id_Visitante) on delete cascade on update cascade
 );
 
 -- Tabela Funcionário
@@ -62,8 +62,8 @@ create table ConsultaVeterinaria (
     estado_de_saude varchar(45),
     id_animal int,
     id_funcionario int,
-    foreign key (id_animal) references Animal(id_Animal),
-    foreign key (id_funcionario) references Funcionario(id_Funcionario)
+    foreign key (id_animal) references Animal(id_Animal) on delete cascade on update cascade,
+    foreign key (id_funcionario) references Funcionario(id_Funcionario) on delete cascade on update cascade
 );
 
 -- Tabela Alimento
@@ -79,8 +79,8 @@ create table Alimento_has_Animal (
 	id_alimento int,
 	id_animal int,
 	primary key (id_alimento, id_animal),
-	foreign key (id_alimento) references Alimento(id_Alimento),
-	foreign key (id_animal) references Animal(id_Animal)
+	foreign key (id_alimento) references Alimento(id_Alimento) on delete cascade on update cascade,
+	foreign key (id_animal) references Animal(id_Animal) on delete cascade on update cascade
 );
 
 -- Tabela intermediário entre Funcionário e Animal
@@ -88,8 +88,8 @@ create table Funcionario_has_Animal (
 	id_funcionario int,
 	id_animal int,
 	primary key (id_funcionario, id_animal),
-	foreign key (id_funcionario) references Funcionario(id_Funcionario),
-	foreign key (id_animal) references Animal(id_Animal)
+	foreign key (id_funcionario) references Funcionario(id_Funcionario) on delete cascade on update cascade,
+	foreign key (id_animal) references Animal(id_Animal) on delete cascade on update cascade
 );
 
 -- ================================== --
