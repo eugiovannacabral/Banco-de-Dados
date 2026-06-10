@@ -5,6 +5,7 @@ public class Visitante {
     private int id_Visitante;
     private String nome;
     private int idade;
+    private Ingresso ingresso;
 
     public Visitante(int id_Visitante, String nome, int idade){
         this.id_Visitante = id_Visitante;
@@ -53,4 +54,9 @@ public class Visitante {
     public void setIdade(int idade) {
         this.idade = idade;
     }
+
+    // ------- Ingresso -------
+    public Ingresso getIngresso() { return ingresso; }
+
+    public void setIngresso(Ingresso ingresso) { this.ingresso = ingresso; }
 }

@@ -261,99 +261,77 @@ public class FuncionarioDAO extends ConnectionDAO {
 
     // ------------ N:M FUNCIONÁRIO - ANIMAL ------------ //
 
-    public boolean associarFuncionarioAnimal(int idFuncionario,
-                                             int idAnimal) {
+    public void listarFuncionariosPorAnimal(int idAnimal){
 
         connectToDb();
 
-        String sql = """
-                INSERT INTO Funcionario_has_Animal
-                (id_funcionario, id_animal)
-                VALUES (?, ?)
-                """;
+        String sql =
+                "SELECT f.nome, f.funcao " +
+                        "FROM Funcionario f " +
+                        "INNER JOIN Funcionario_has_Animal fa " +
+                        "ON f.id_Funcionario = fa.id_funcionario " +
+                        "WHERE fa.id_animal = ?";
 
-        try {
+        try{
 
             pst = connection.prepareStatement(sql);
+            pst.setInt(1, idAnimal);
 
-            pst.setInt(1, idFuncionario);
-            pst.setInt(2, idAnimal);
+            rs = pst.executeQuery();
 
-            pst.execute();
+            System.out.println("\nFuncionários responsáveis:");
 
-            return true;
+            while(rs.next()){
 
-        } catch (SQLException e) {
-
-            System.out.println("Erro ao associar funcionário ao animal: "
-                    + e.getMessage());
-
-            return false;
-
-        } finally {
-
-            try {
-
-                if (pst != null)
-                    pst.close();
-
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-
-                System.out.println("Erro ao fechar recursos: " + e.getMessage());
-
+                System.out.println(
+                        rs.getString("nome")
+                                + " - "
+                                + rs.getString("funcao")
+                );
             }
+
+        }catch(SQLException e){
+
+            System.out.println(e.getMessage());
+
         }
     }
 
     // ------------ N:M FUNCIONÁRIO - HABITAT ------------ //
 
-    public boolean associarFuncionarioHabitat(int idFuncionario,
-                                              int idHabitat) {
+    public void listarFuncionariosPorHabitat(int idHabitat){
 
         connectToDb();
 
-        String sql = """
-                INSERT INTO Funcionario_has_Habitat
-                (id_funcionario, id_habitat)
-                VALUES (?, ?)
-                """;
+        String sql =
+                "SELECT f.nome, f.funcao " +
+                        "FROM Funcionario f " +
+                        "INNER JOIN Funcionario_has_Habitat fh " +
+                        "ON f.id_Funcionario = fh.id_funcionario " +
+                        "WHERE fh.id_habitat = ?";
 
-        try {
+        try{
 
             pst = connection.prepareStatement(sql);
+            pst.setInt(1, idHabitat);
 
-            pst.setInt(1, idFuncionario);
-            pst.setInt(2, idHabitat);
+            rs = pst.executeQuery();
 
-            pst.execute();
+            System.out.println("\nFuncionários responsáveis:");
 
-            return true;
+            while(rs.next()){
 
-        } catch (SQLException e) {
-
-            System.out.println("Erro ao associar funcionário ao habitat: "
-                    + e.getMessage());
-
-            return false;
-
-        } finally {
-
-            try {
-
-                if (pst != null)
-                    pst.close();
-
-                if (connection != null)
-                    connection.close();
-
-            } catch (SQLException e) {
-
-                System.out.println("Erro ao fechar recursos: " + e.getMessage());
-
+                System.out.println(
+                        rs.getString("nome")
+                                + " - "
+                                + rs.getString("funcao")
+                );
             }
+
+        }catch(SQLException e){
+
+            System.out.println(e.getMessage());
+
         }
     }
 }

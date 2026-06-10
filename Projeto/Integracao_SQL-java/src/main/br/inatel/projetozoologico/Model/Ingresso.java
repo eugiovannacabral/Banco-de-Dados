@@ -16,7 +16,6 @@ public class Ingresso {
     }
 
     public Ingresso(String data, String tipo, double preco){
-        this.id_Ingresso = id_Ingresso;
         this.data = data;
         this.tipo = tipo;
         this.preco = preco;
@@ -28,10 +27,6 @@ public class Ingresso {
         System.out.println("Data: " + data);
         System.out.println("Tipo: " + tipo);
         System.out.println("Preço: " + preco);
-
-        if(visitante != null){
-            visitante.mostrarInfosVisitante();
-        }
     }
 
     // ======= Getters e Setters =======

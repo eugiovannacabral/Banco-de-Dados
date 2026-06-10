@@ -1,6 +1,7 @@
 package main.br.inatel.projetozoologico.DAO;
 
 import main.br.inatel.projetozoologico.Model.Visitante;
+import main.br.inatel.projetozoologico.Model.Ingresso;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -144,6 +145,74 @@ public class VisitanteDAO extends ConnectionDAO {
 
             }
         }
+        return visitante;
+    }
+
+    // ===== JOIN com Ingresso =====
+
+    public Visitante selectVisitanteComIngresso(int idVisitante){
+
+        Visitante visitante = null;
+
+        connectToDb();
+
+        String sql = """
+        SELECT
+            v.id_Visitante,
+            v.nome,
+            v.idade,
+            i.id_Ingresso,
+            i.data,
+            i.tipo,
+            i.preco
+
+        FROM Visitante v
+        INNER JOIN Ingresso i
+            ON v.id_Visitante = i.id_visitante
+
+        WHERE v.id_Visitante = ?
+        """;
+
+        try{
+
+            pst = connection.prepareStatement(sql);
+            pst.setInt(1, idVisitante);
+
+            rs = pst.executeQuery();
+
+            if(rs.next()){
+
+                visitante = new Visitante(
+                        rs.getInt("id_Visitante"),
+                        rs.getString("nome"),
+                        rs.getInt("idade")
+                );
+
+                Ingresso ingresso = new Ingresso(
+                        rs.getInt("id_Ingresso"),
+                        rs.getString("data"),
+                        rs.getString("tipo"),
+                        rs.getDouble("preco")
+                );
+
+                visitante.setIngresso(ingresso);
+            }
+
+        } catch(SQLException e){
+
+            System.out.println("Erro ao buscar visitante com ingresso: " + e.getMessage());
+
+        } finally {
+            try{
+                if(rs != null) rs.close();
+                if(pst != null) pst.close();
+                if(connection != null) connection.close();
+
+            } catch(SQLException e){
+                System.out.println("Erro ao fechar recursos: " + e.getMessage());
+            }
+        }
+
         return visitante;
     }
 
