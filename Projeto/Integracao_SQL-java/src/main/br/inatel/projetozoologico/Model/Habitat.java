@@ -16,6 +16,14 @@ public class Habitat {
         this.tipo = tipo;
     }
 
+    public Habitat(String nome, String clima, int lotacao, String tipo) {
+        this.idHabitat = idHabitat;
+        this.nome = nome;
+        this.clima = clima;
+        this.lotacao = lotacao;
+        this.tipo = tipo;
+    }
+
     public void mostraInfoHabitat() {
 
         System.out.println("\n=== DADOS DO HABITAT ===");

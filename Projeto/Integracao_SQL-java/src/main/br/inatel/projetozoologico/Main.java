@@ -186,6 +186,120 @@ public class Main extends ConnectionDAO {
 
             }
 
+            if (opcao == 2) {
+                while (true) {
+
+                    int opcao_habitat = 0;
+
+                    System.out.println("--------MENU HABITAT-------");
+                    System.out.println("1- Cadastrar um Habitat");
+                    System.out.println("2- Listar todos os Habitats");
+                    System.out.println("3- Buscar clima por tipo de Habitat");
+                    System.out.println("4- Atualização dos dados de um Habitat");
+                    System.out.println("5- Deletar um Habitat");
+                    System.out.println("6- Voltar");
+
+                    opcao_habitat = teclado.nextInt();
+                    teclado.nextLine();
+
+                    if (opcao_habitat == 1) {
+
+                        System.out.println("Nome do habitat:");
+                        String nome = teclado.nextLine();
+
+                        System.out.println("Clima:");
+                        String clima = teclado.nextLine();
+
+                        System.out.println("Lotação:");
+                        int lotacao = teclado.nextInt();
+                        teclado.nextLine();
+
+                        System.out.println("Tipo:");
+                        String tipo = teclado.nextLine();
+
+                        Habitat habitat = new Habitat(nome, clima, lotacao, tipo);
+
+                        HabitatDAO habitatDAO = new HabitatDAO();
+
+                        if (habitatDAO.insertHabitat(habitat)) {
+                            System.out.println("Habitat cadastrado com sucesso!");
+                        } else {
+                            System.out.println("Erro ao cadastrar habitat!");
+                        }
+
+                    } else if (opcao_habitat == 2) {
+
+                        HabitatDAO habitatDAO = new HabitatDAO();
+
+                        for (Habitat habitat : habitatDAO.selectHabitat()) {
+                            habitat.mostraInfoHabitat();
+                        }
+
+                    } else if (opcao_habitat == 3) {
+
+                        System.out.println("Digite o tipo do habitat:");
+                        String tipo = teclado.nextLine();
+
+                        HabitatDAO habitatDAO = new HabitatDAO();
+
+                        String clima = habitatDAO.selectClimaByTipo(tipo);
+
+                        if (clima != null) {
+                            System.out.println("Clima: " + clima);
+                        } else {
+                            System.out.println("Habitat não encontrado!");
+                        }
+
+                    } else if (opcao_habitat == 4) {
+
+                        System.out.println("Digite o ID do habitat:");
+                        int idHabitat = teclado.nextInt();
+                        teclado.nextLine();
+
+                        System.out.println("Novo nome:");
+                        String nome = teclado.nextLine();
+
+                        System.out.println("Novo clima:");
+                        String clima = teclado.nextLine();
+
+                        System.out.println("Nova lotação:");
+                        int lotacao = teclado.nextInt();
+                        teclado.nextLine();
+
+                        System.out.println("Novo tipo:");
+                        String tipo = teclado.nextLine();
+
+                        Habitat habitat =
+                                new Habitat(idHabitat, nome, clima, lotacao, tipo);
+
+                        HabitatDAO habitatDAO = new HabitatDAO();
+
+                        if (habitatDAO.updateHabitat(habitat)) {
+                            System.out.println("Habitat atualizado com sucesso!");
+                        } else {
+                            System.out.println("Erro ao atualizar habitat!");
+                        }
+
+                    } else if (opcao_habitat == 5) {
+
+                        System.out.println("Digite o nome do habitat:");
+                        String nome = teclado.nextLine();
+
+                        HabitatDAO habitatDAO = new HabitatDAO();
+
+                        if (habitatDAO.deleteHabitat(nome)) {
+                            System.out.println("Habitat deletado com sucesso!");
+                        } else {
+                            System.out.println("Erro ao deletar habitat!");
+                        }
+
+                    } else if (opcao_habitat == 6) {
+
+                        break;
+                    }
+                }
+            }
+
             if (opcao == 3) {
                 while (true) {
 
