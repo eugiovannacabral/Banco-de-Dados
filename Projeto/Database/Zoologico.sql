@@ -92,6 +92,23 @@ create table Funcionario_has_Animal (
 	foreign key (id_animal) references Animal(id_Animal) on delete cascade on update cascade
 );
 
+create table Funcionario_has_Habitat (
+    id_funcionario int,
+    id_habitat int,
+
+    primary key (id_funcionario, id_habitat),
+
+    foreign key (id_funcionario)
+        references Funcionario(id_Funcionario)
+        on delete cascade
+        on update cascade,
+
+    foreign key (id_habitat)
+        references Habitat(id_Habitat)
+        on delete cascade
+        on update cascade
+);
+
 -- ================================== --
 --          INSERÇÃO DE DADOS         --
 -- ================================== --
@@ -116,17 +133,17 @@ Insert into Animal(nome, sexo, idade, especie, peso, id_habitat) values
 
 -- Inserindo dados na tabela Visitante
 
-Insert into Visitante(nome, idade, aniversario) values
-('Lucas Almeida', 14, true),
-('Fernanda Costa', 27, true),
-('Gabriel Souza', 35, false),
-('Mariana Lima', 19, true),
-('Pedro Tavares', 2, false),
-('Juliana Martins', 31, false),
-('Rafael Gomes', 22, false),
-('Beatriz Oliveira', 17, false),
-('Mateus Ferreira', 45, false),
-('Mary Braverman', 67, false);
+Insert into Visitante(nome, idade) values
+('Lucas Almeida', 14),
+('Fernanda Costa', 27),
+('Gabriel Souza', 35),
+('Mariana Lima', 19),
+('Pedro Tavares', 2),
+('Juliana Martins', 31),
+('Rafael Gomes', 22),
+('Beatriz Oliveira', 17),
+('Mateus Ferreira', 45),
+('Mary Braverman', 67);
 
 -- Inserindo dados na tabela Ingresso
 
@@ -173,6 +190,35 @@ Insert into Alimento(tipo_de_dieta, estoque, nome) values
 ('Onívora', 80, 'Frutas e insetos variados'),
 ('Onívora', 90, 'Frutas e insetos variados'),
 ('Herbívora (mas podem consumir carne)', 1500, 'Gramíneas');
+
+INSERT INTO Funcionario_has_Habitat(id_funcionario, id_habitat) VALUES
+(1, 1), 
+(1, 5), 
+(2, 2), 
+(2, 4), 
+(3, 3), 
+(3, 4), 
+(4, 5), 
+(4, 1), 
+(5, 3), 
+(5, 4), 
+(6, 1), 
+(7, 2), 
+(8, 5), 
+(9, 4), 
+(10, 5); 
+
+INSERT INTO Funcionario_has_Animal(id_funcionario, id_animal) VALUES
+(3,1),
+(3,2),
+(4,3),
+(4,4),
+(5,5),
+(1,1),
+(1,3),
+(2,2),
+(2,4),
+(2,5);
 
 -- ================================== --
 --        USUÁRIOS ARBITRÁRIOS        --
@@ -278,8 +324,11 @@ delimiter ;
  -- select * from Ingresso where id_visitante = 5;
 
 -- Views
-create view Animais_Peso_Idade as (select peso, idade from Animais);
+create view Animais_Peso_Idade as (select peso, idade from Animal);
 
 select * from Animais_Peso_Idade;
 
 drop view Animais_Peso_Idade;
+
+-- select * from zoologico;
+SHOW TABLES FROM zoologico;
